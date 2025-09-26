@@ -395,7 +395,7 @@ public class CreateRideMockBlackTest {
 	public void test8() {
 		
 		String driverUsername="Driver Test";
-		String driverPassword="123";
+		
 
 		String rideFrom="Donostia";
 		String rideTo="Zarautz";
