@@ -3,11 +3,13 @@ package dataAccess;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,6 +32,8 @@ public class DataAccess {
 	ConfigXML c = ConfigXML.getInstance();
 	
 	private String adminPass="admin";
+	private static final Logger logger = Logger.getLogger(DataAccess.class.getName());
+
 
 	public DataAccess() {
 		if (c.isDatabaseInitialized()) {
@@ -40,7 +44,9 @@ public class DataAccess {
 				File fileToDeleteTemp = new File(fileName + "$");
 				fileToDeleteTemp.delete();
 
-				System.out.println("File deleted");
+				
+				
+				logger.info("File deleted");
 			} else {
 				System.out.println("Operation failed");
 			}
@@ -79,6 +85,7 @@ public class DataAccess {
 			driver2.setBalkop(3);
 			db.persist(driver1);
 			db.persist(driver2);
+			
 
 			Traveler traveler1 = new Traveler("Unax", "789");
 			traveler1.setIzoztatutakoDirua(68);
@@ -850,45 +857,59 @@ public class DataAccess {
 		return query.getResultList();
 	}
 
-	public void deleteUser(User us) {
-		try {
-			if (us.getMota().equals("Driver")) {
-				List<Ride> rl = getRidesByDriver(us.getUsername());
-				if (rl != null) {
-					for (Ride ri : rl) {
-						cancelRide(ri);
-					}
-				}
-				Driver d = getDriver(us.getUsername());
-				List<Car> cl = d.getCars();
-				if (cl != null) {
-					for (int i = cl.size() - 1; i >= 0; i--) {
-						Car ci = cl.get(i);
-						deleteCar(ci);
-					}
-				}
-			} else {
-				List<Booking> lb = getBookedRides(us.getUsername());
-				if (lb != null) {
-					for (Booking li : lb) {
-						li.setStatus("Rejected");
-						li.getRide().setnPlaces(li.getRide().getnPlaces() + li.getSeats());
-					}
-				}
-				List<Alert> la = getAlertsByUsername(us.getUsername());
-				if (la != null) {
-					for (Alert lx : la) {
-						deleteAlert(lx.getAlertNumber());
-					}
-				}
-			}
-			db.getTransaction().begin();
-			us = db.merge(us);
-			db.remove(us);
-			db.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void deleteUser(User user) {
+	    try {
+	        if ("Driver".equals(user.getMota())) {
+	            handleDriverDeletion(user);
+	        } else {
+	            handlePassengerDeletion(user);
+	        }
+
+	        performUserDeletion(user);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	private void handleDriverDeletion(User user) {
+	    List<Ride> rides = getRidesByDriver(user.getUsername());
+	    for (Ride ride : safeList(rides)) {
+	        cancelRide(ride);
+	    }
+
+	    Driver driver = getDriver(user.getUsername());
+	    if (driver != null) {
+	        for (Car car : safeList(driver.getCars())) {
+	            deleteCar(car);
+	        }
+	    }
+	}
+
+	private void handlePassengerDeletion(User user) {
+	    List<Booking> bookings = getBookedRides(user.getUsername());
+	    for (Booking booking : safeList(bookings)) {
+	        booking.setStatus("Rejected");
+	        Ride ride = booking.getRide();
+	        ride.setnPlaces(ride.getnPlaces() + booking.getSeats());
+	    }
+
+	    List<Alert> alerts = getAlertsByUsername(user.getUsername());
+	    for (Alert alert : safeList(alerts)) {
+	        deleteAlert(alert.getAlertNumber());
+	    }
+	}
+
+	private void performUserDeletion(User user) {
+	    db.getTransaction().begin();
+	    user = db.merge(user);
+	    db.remove(user);
+	    db.getTransaction().commit();
+	}
+
+	// Utility method to avoid null checks
+	private <T> List<T> safeList(List<T> list) {
+	    return list != null ? list : Collections.emptyList();
 	}
 
 	public List<Alert> getAlertsByUsername(String username) {

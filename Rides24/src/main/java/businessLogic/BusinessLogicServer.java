@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import configuration.ConfigXML;
 
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 import javax.xml.ws.Endpoint;
 
 
@@ -37,10 +38,11 @@ public class BusinessLogicServer extends JDialog {
 	BLFacade server;
 	String service;
 
+
 	public static void main(String[] args) {
 		try {
 			BusinessLogicServer dialog = new BusinessLogicServer();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,14 +73,10 @@ public class BusinessLogicServer extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						textArea.append("\n\n\nClosing the server... ");
-					    
-							//server.close();
-						
-						System.exit(1);
-					}
+				okButton.addActionListener(e -> {
+				    textArea.append("\n\n\nClosing the server... ");
+
+				    System.exit(1);
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
