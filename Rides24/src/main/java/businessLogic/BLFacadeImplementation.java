@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.Date;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,8 +31,10 @@ import exceptions.RideAlreadyExistException;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation implements BLFacade {
 	DataAccess dbManager;
-
+	
 	private static final Logger logger = Logger.getLogger(BLFacadeImplementation.class.getName());
+
+
 	
 	public BLFacadeImplementation() {
 		logger.info("Creating BLFacadeImplementation instance");
@@ -91,7 +94,7 @@ public class BLFacadeImplementation implements BLFacade {
 		Ride ride = dbManager.createRide(from, to, date, nPlaces, price, driverName);
 		dbManager.close();
 		return ride;
-	}
+	};
 
 	/**
 	 * {@inheritDoc}
