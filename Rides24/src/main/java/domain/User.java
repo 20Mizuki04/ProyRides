@@ -116,9 +116,8 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (username != other.username)
-			return false;
-		return true;
+		return username != other.username;
+
 	}
 
 }
