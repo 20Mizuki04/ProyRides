@@ -526,30 +526,44 @@ public class DataAccess {
 		}
 	}
 
+	/**
+	 * Este método sirve para reservar un viaje para un viajero.
+	 * 
+	 * Se comprueba que:
+	 * 	El viajero exista en la BD.
+	 * 	El viaje tenga asientos disponibles.
+	 * 	El viajero tenga suficiente dinero para pagar el precio total del viaje.
+	 * 
+	 * Si todo va bien se crea la reserva con el viaje, viajero y asientos,
+	 * y se actualizan los datos del viaje y del viajero.
+	 * Si no va bien, la reserva no se hace.
+	 * 
+	 * 
+	 * @param username = nombre de usuario del viajero
+	 * @param ride = viaje en el que se quiere reservar
+	 * @param seats = número de asientos para reservar
+	 * @param desk = descuento para aplicar
+	 * @return true si la reserva se hace con éxito, false en caso contrario
+	 */
 	public boolean bookRide(String username, Ride ride, int seats, double desk) {
 		try {
 			db.getTransaction().begin();
-
 			Traveler traveler = getTraveler(username);
 			if (traveler == null) {
 				return false;
 			}
-
 			if (ride.getnPlaces() < seats) {
 				return false;
 			}
-
 			double ridePriceDesk = (ride.getPrice() - desk) * seats;
 			double availableBalance = traveler.getMoney();
 			if (availableBalance < ridePriceDesk) {
 				return false;
 			}
-
 			Booking booking = new Booking(ride, traveler, seats);
 			booking.setTraveler(traveler);
 			booking.setDeskontua(desk);
 			db.persist(booking);
-
 			ride.setnPlaces(ride.getnPlaces() - seats);
 			traveler.addBookedRide(booking);
 			traveler.setMoney(availableBalance - ridePriceDesk);
