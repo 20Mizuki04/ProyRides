@@ -30,10 +30,9 @@ import domain.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 
-
-public class GetRidesByDriverMockWhiteTest {
+public class GetRidesByDriverMockBlackTest {
 	
-	static DataAccess sut;
+static DataAccess sut;
 	
 	protected MockedStatic<Persistence> persistenceMock;
 
@@ -69,10 +68,79 @@ public class GetRidesByDriverMockWhiteTest {
 		persistenceMock.close();
     }
 	
+	
+	@Test
+	// Caso en el que el conductor si tiene viajes activos
+	public void test1() {
+	    nombre = "Iñigo";
+	    pass = "1234";
+	    List<Ride> r = new ArrayList<Ride>();
+
+		String rideFrom="Donostia";
+		String rideTo="Zarautz";
+		
+		String driverUserName=null;
+
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date rideDate=null;
+		try {
+			rideDate = sdf.parse("05/10/2026");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    driver = new Driver(nombre, pass);
+	    Ride viaje= new Ride(rideFrom, rideTo, rideDate, 0, 0, driver);
+
+	    r.add(viaje);
+
+	    driver.setCreatedRides(r);
+
+	    @SuppressWarnings("unchecked")
+	    TypedQuery<Driver> query = (TypedQuery<Driver>) Mockito.mock(TypedQuery.class);
+
+	    try {
+	        Mockito.when(db.createQuery(Mockito.anyString(), Mockito.eq(Driver.class))).thenReturn(query);
+	        Mockito.when(query.getSingleResult()).thenReturn(driver);
+
+	        sut.open();
+	        rides = sut.getRidesByDriver(nombre);
+	        sut.close();
+
+	        assertEquals(r, rides);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        fail();
+	    } finally {
+	        sut.close();
+	    }
+	}
+	
+	@Test
+	//Caso en el que pasamos un argumento null
+	public void test2() {
+		nombre=null;
+		try {
+		
+		//invoke System Under Test (sut)  
+		sut.open();
+		rides= sut.getRidesByDriver(nombre);
+		sut.close();
+		assertNull(rides);
+		}
+		catch(Exception e) {
+			fail();
+		}
+		finally {
+			sut.close();
+		}
+	}
+	
 	@Test
 	//Caso en el que el conductor no existe en la base de datos
-	public void test1() {
-		nombre="Jaime";
+	public void test3() {
+		nombre="Eider";
 		
 	    @SuppressWarnings("unchecked")
 	    TypedQuery<Driver> query = (TypedQuery<Driver>) Mockito.mock(TypedQuery.class);
@@ -96,10 +164,11 @@ public class GetRidesByDriverMockWhiteTest {
 		}
 	}
 	
+	
 	@Test
 	// Caso en el que el conductor no tiene viajes en la base de datos
-	public void test2() {
-	    nombre = "Jose";
+	public void test4() {
+	    nombre = "Leire";
 	    pass = "1234";
 	    List<Ride> r = new ArrayList<Ride>();
 	    driver = new Driver(nombre, pass);
@@ -127,8 +196,8 @@ public class GetRidesByDriverMockWhiteTest {
 	
 	@Test
 	// Caso en el que el conductor no tiene viajes activos
-	public void test3() {
-	    nombre = "Antonio";
+	public void test5() {
+	    nombre = "Xiomara";
 	    pass = "1234";
 	    List<Ride> r = new ArrayList<Ride>();
 	    List<Ride> r2 = new ArrayList<Ride>();
@@ -173,53 +242,7 @@ public class GetRidesByDriverMockWhiteTest {
 	    }
 	}
 	
-	@Test
-	// Caso en el que el conductor si tiene viajes activos
-	public void test4() {
-	    nombre = "Marcos";
-	    pass = "1234";
-	    List<Ride> r = new ArrayList<Ride>();
-
-		String rideFrom="Donostia";
-		String rideTo="Zarautz";
-		
-		String driverUserName=null;
-
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date rideDate=null;
-		try {
-			rideDate = sdf.parse("05/10/2026");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    driver = new Driver(nombre, pass);
-	    Ride viaje= new Ride(rideFrom, rideTo, rideDate, 0, 0, driver);
-
-	    r.add(viaje);
-
-	    driver.setCreatedRides(r);
-
-	    @SuppressWarnings("unchecked")
-	    TypedQuery<Driver> query = (TypedQuery<Driver>) Mockito.mock(TypedQuery.class);
-
-	    try {
-	        Mockito.when(db.createQuery(Mockito.anyString(), Mockito.eq(Driver.class))).thenReturn(query);
-	        Mockito.when(query.getSingleResult()).thenReturn(driver);
-
-	        sut.open();
-	        rides = sut.getRidesByDriver(nombre);
-	        sut.close();
-
-	        assertEquals(r, rides);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        fail();
-	    } finally {
-	        sut.close();
-	    }
-	}
+	
 	
 
 }
