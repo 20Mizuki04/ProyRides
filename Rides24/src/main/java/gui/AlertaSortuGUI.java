@@ -74,7 +74,7 @@ public class AlertaSortuGUI extends JFrame {
 		jButtonCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jLabelMsg.setText("");
-				String error = fieldErrors();
+				String error = field_Errors();
 				if (error != null)
 					jLabelMsg.setText(error);
 				else {
@@ -185,7 +185,7 @@ public class AlertaSortuGUI extends JFrame {
 		this.setVisible(false);
 	}
 
-	private String fieldErrors() {
+	private String field_Errors() {
 		try {
 			if ((fieldOrigin.getText().length() == 0) || (fieldDestination.getText().length() == 0))
 				return ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorQuery");

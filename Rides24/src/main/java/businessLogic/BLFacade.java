@@ -105,7 +105,6 @@ public interface BLFacade {
 
 	public Traveler getTraveler(String erab);
 
-	//public Admin getAdmin(String erab);
 
 	public String getMotaByUsername(String erab);
 
