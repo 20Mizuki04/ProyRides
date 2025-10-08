@@ -1,16 +1,15 @@
 
-@configuration.ConfigXML#getBusinessLogicNode()Ljava/lang/String;S
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java’ ’(#"1*ö
-1S
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java“	 “(ª
-§
-S
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java“	 “(
-%0java.lang.String"__id*2*0
-configuration.ConfigXML"
-businessLogicNode"o
-S
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java“ “(
+,domain.Discount#getKodea()Ljava/lang/String;R
+HC:/Users/Ilargi/git/ProyRides/Rides24/src/main/java/domain/Discount.java ("1*›
+1	 (f
+d
+	 (
+%0java.lang.String"__id*:
+
+__unknown_file (*
+domain.Discount"
+kodea"$
+ (
 
-%0java.lang.StringB
-configuration.ConfigXML
+%0java.lang.StringB
+domain.DiscountH

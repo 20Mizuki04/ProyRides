@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import configuration.ConfigXML;
 import domain.Driver;
 import domain.Ride;
+import domain.Traveler;
 
 
 public class TestDataAccess {
@@ -133,7 +134,57 @@ public class TestDataAccess {
 			return null;
 
 		}
+		
+		
+		
+		
+		
+		
+		
+		public Ride createRideForDriver(String from, String to, Date date, int nPlaces, double price, Driver driver) {
+			System.out.println(">> TestDataAccess: createRideForDriver");
+			Driver d = db.find(Driver.class, driver.getUsername());
+			if(d == null) {
+				d = new Driver(driver.getUsername(), driver.getPassword());
+				db.getTransaction().begin();
+				db.persist(d);
+				db.getTransaction().commit();
+			}
+			Ride r = new Ride(from, to, date, nPlaces, price, d);
+			db.getTransaction().begin();
+			db.persist(r);
+			db.getTransaction().commit();
+			return r;
 
+		}
+		
+		public Traveler createTraveler(String name, String pass, int money) {
+			System.out.println(">> TestDataAccess: createTraveler");
+			Traveler traveler = null;
+				db.getTransaction().begin();
+				try {
+				    traveler = new Traveler(name,pass);
+				    traveler.setMoney(money);
+					db.persist(traveler);
+					db.getTransaction().commit();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				return traveler;
+	    }
+		
+		public boolean removeTraveler(String name) {
+			System.out.println(">> TestDataAccess: removeTraveler");
+			Traveler t = db.find(Traveler.class, name);
+			if (t!=null) {
+				db.getTransaction().begin();
+				db.remove(t);
+				db.getTransaction().commit();
+				return true;
+			} else 
+			return false;
+	    }
 
 		
 }

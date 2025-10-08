@@ -1,16 +1,28 @@
 
-5configuration.ConfigXML#getLocale()Ljava/lang/String;Q
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java1 1("1*Â
-1Q
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java2	 2(ù
-ö
+!gui.EzabatuGUI#%field_initializer
+__unknown_file ("1*Ü
+1 (éã
 Q
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java2	 2(
-%0java.lang.String"__id*'*%
-configuration.ConfigXML"
-locale"m
+GC:/Users/Ilargi/git/ProyRides/Rides24/src/main/java/gui/EzabatuGUI.java ((
+%0java.text.DecimalFormat"java.text.DecimalFormat‘
+—
 Q
-G/Users/iturrioz/git/Bets2021/src/main/java/configuration/ConfigXML.java2 2(
-
-%0java.lang.StringB
-configuration.ConfigXML
+GC:/Users/Ilargi/git/ProyRides/Rides24/src/main/java/gui/EzabatuGUI.java (0
+%1"3java.text.DecimalFormat#<init>(Ljava/lang/String;)V*+
+ (
+
+%0java.text.DecimalFormat*
+ (
+#.##¶
+£
+Q
+GC:/Users/Ilargi/git/ProyRides/Rides24/src/main/java/gui/EzabatuGUI.java (1
+gui.EzabatuGUI"
+forma"__id*+
+ (
+
+%0java.text.DecimalFormat"f
+O
+GC:/Users/Ilargi/git/ProyRides/Rides24/src/main/java/gui/EzabatuGUI.java b(
+implicit returnB
+gui.EzabatuGUI
