@@ -539,6 +539,7 @@ public class DataAccess {
 	 * Si no va bien, la reserva no se hace.
 	 * 
 	 * 
+	 * 
 	 * @param username = nombre de usuario del viajero
 	 * @param ride = viaje en el que se quiere reservar
 	 * @param seats = número de asientos para reservar
