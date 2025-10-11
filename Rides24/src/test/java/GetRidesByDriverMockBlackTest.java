@@ -50,7 +50,7 @@ static DataAccess sut;
 
 	private List<Ride> rides;
 	
-	//comentario de prueba
+
 
 	@Before
     public  void init() {
