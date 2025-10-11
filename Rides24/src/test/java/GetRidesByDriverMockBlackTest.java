@@ -80,7 +80,7 @@ static DataAccess sut;
 		String rideTo="Zarautz";
 		
 		String driverUserName=null;
-// comentario desesperado
+
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date rideDate=null;
