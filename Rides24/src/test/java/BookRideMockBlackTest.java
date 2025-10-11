@@ -37,7 +37,7 @@ public class BookRideMockBlackTest {
 	protected EntityManager db;
 	@Mock
 	protected EntityTransaction et;
-
+//comentario prueba
 	@Before
 	public void init() {
 		MockitoAnnotations.openMocks(this);
